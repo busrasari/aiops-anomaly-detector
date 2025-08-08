@@ -1,10 +1,10 @@
 import argparse
 import logging
 from pathlib import Path
-
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 from sklearn.neighbors import LocalOutlierFactor
+from sklearn.metrics import classification_report
 
 def setup_logger(log_dir: Path):
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -62,7 +62,12 @@ def main():
         result.to_csv(out_csv, index=False)
         logging.info(f"Saved results to {out_csv}")
 
-        # Kısa özet
+        if "label" in result.columns:
+        y_true = result["label"]
+        y_pred = result["anomaly"]
+        print("\n📊 Evaluation Metrics:")
+        print(classification_report(y_true, y_pred, digits=3))
+
         anom_count = (result["anomaly"] == -1).sum()
         total = len(result)
         logging.info(f"Anomalies: {anom_count}/{total} (contamination={args.contamination})")
