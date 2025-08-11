@@ -2,6 +2,9 @@ import argparse
 from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
+from aiops_anomaly_detector.io import load_csv
+from aiops_anomaly_detector.viz import scatter
+
 
 def scatter_plot(df, x, y, out_path):
     plt.figure()
