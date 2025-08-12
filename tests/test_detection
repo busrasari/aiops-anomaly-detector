@@ -1,0 +1,9 @@
+import pandas as pd
+from aiops_anomaly_detector.detection import select_numeric, detect_isolation_forest
+
+def test_isolation_forest_runs():
+    df = pd.DataFrame({"cpu_usage":[0.1,0.2,0.9], "memory_usage":[0.1,0.2,0.9]})
+    X = select_numeric(df)
+    preds, scores = detect_isolation_forest(X, contamination=0.2)
+    assert len(preds) == len(df)
+    assert len(scores) == len(df)
